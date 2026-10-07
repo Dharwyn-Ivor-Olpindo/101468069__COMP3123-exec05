@@ -1,0 +1,20 @@
+const express = require('express');
+const path = require('path');
+const app = express();
+const userRouter = require('./routes/users');
+
+app.use(express.json());
+
+app.use('/api/v1/user', userRouter);
+
+app.get('/home', (req, res) => {
+  res.sendFile(path.join(__dirname, 'home.html'));
+});
+
+app.use((err, req, res, next) => {
+  res.status(500).send('Server Error');
+});
+
+app.listen(process.env.port || 8081);
+
+console.log('Web Server is listening at port ' + (process.env.port || 8081));
